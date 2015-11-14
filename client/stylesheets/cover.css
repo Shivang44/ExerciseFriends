@@ -27,6 +27,9 @@ a:hover {
 html, body {
   height: 100%;
 }
+.site-wrapper {
+    margin-top:-100px;
+}
 .site-wrapper h1, .site-wrapper h3, .site-wrapper li, .site-wrapper p {
   color: #fff;
   text-align: center;
