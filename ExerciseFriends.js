@@ -3,7 +3,8 @@ if (Meteor.isClient) {
   Session.setDefault('counter', 0);
 
   Template.body.helpers({
-    loggedin: true
+    loggedin: false
+    // Through javascript, set this to true if logged in
   });
 
   Template.body.events({
