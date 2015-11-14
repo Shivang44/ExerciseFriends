@@ -1,6 +1,7 @@
 if (Meteor.isClient) {
   // counter starts at 0
   Session.setDefault('counter', 0);
+  Session.set("show", false);
 
   Template.body.helpers({
 
@@ -8,10 +9,13 @@ if (Meteor.isClient) {
   });
 
   Template.body.events({
-    'click button': function () {
-      // increment the counter when button is clicked
-      Session.set('counter', Session.get('counter') + 1);
-    }
+
+  });
+
+  Template.splash.helpers({
+      show: function(){
+          return Session.get("show");
+      }
   });
 
   Template.main.helpers({
@@ -45,6 +49,59 @@ if (Meteor.isClient) {
           });
 
           return false;
+      },
+      'submit #register-form': function(e, t){
+          e.preventDefault();
+
+          // get user data
+          var email = t.find('#inputEmail').value;
+          var password = t.find('#inputPassword').value;
+
+
+          // Create his account
+         /* Accounts.createUser({
+              email: email,
+            password: password
+            });
+
+            Meteor.logout();
+
+            Session.set("show", false);
+*/
+
+Accounts.createUser = _.wrap(Accounts.createUser, function(createUser) {
+    // Store the original arguments
+    var args = _.toArray(arguments).slice(1),
+    user = args[0];
+    origCallback = args[1];
+
+    var newCallback = function(error) {
+        if(error){
+            alert(error);
+        }
+    origCallback.call(this, error);
+    };
+
+    createUser(user, newCallback);
+});
+
+Accounts.createUser({
+     email: email,
+   password: password
+ });
+
+
+
+      },
+      'click #registerlink': function(e){
+          e.preventDefault();
+
+          Session.set("show", true);
+      },
+      'click #loginlink': function(e){
+          e.preventDefault();
+
+          Session.set("show", false);
       }
   });
 }

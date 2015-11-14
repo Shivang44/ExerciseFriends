@@ -41,7 +41,6 @@
 {{else}}
     {{> splash}}
 {{/if}}
-
 </body>
 
 
@@ -56,13 +55,64 @@
           <div class="inner cover">
             <h1 class="cover-heading">Exercise Friends</h1>
 
-            <form class="form-signin splashsignin" id="login-form">
+    <form class="form-signin splashsignin" id="{{#unless show}}login-form{{else}}register-form{{/unless}}">
+
+
        <label for="inputEmail" class="sr-only">Email address</label>
        <input type="email" id="inputEmail" class="form-control marginbottom3" placeholder="Email address" required autofocus>
+
        <label for="inputPassword" class="sr-only">Password</label>
        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+
+       <div id="questions" class="{{#unless show}}hidden{{/unless}}">
+       <select class="form-control" id="fitnesslevel">
+         <option value="0">What is your fitness level?</option>
+         <option value="1">1 (beginner)</option>
+         <option value="2">2</option>
+         <option value="3">3</option>
+         <option value="4">4</option>
+         <option value="5">5</option>
+         <option value="6">6</option>
+         <option value="7">7</option>
+         <option value="8">8</option>
+         <option value="9">9</option>
+         <option value="10">10 (advanced)</option>
+       </select>
+
+       <select class="form-control" id="method">
+         <option value="0">What is your preferred method of exercise?</option>
+         <option value="1">Running</option>
+         <option value="2">Weight Training</option>
+         <option value="3">Balanced</option>
+       </select>
+
+       <select class="form-control" id="time">
+         <option value="0">What is your preferred time of exercise?</option>
+         <option value="1">Early Morning</option>
+         <option value="2">Morning</option>
+         <option value="3">Afternoon</option>
+         <option value="4">Evening</option>
+         <option value="5">Late Night</option>
+       </select>
+
+       <select class="form-control" id="gender">
+         <option value="0">What is your gender?</option>
+         <option value="1">Male</option>
+         <option value="2">Female</option>
+       </select>
+
+</div>
+
        <p class="lead">
+           {{#unless show}}
            <button class="btn btn-lg btn-default">Login</button>
+           <br />
+           <a href="#" id="registerlink" style="font-size:18px;">Click here to register</a>
+           {{else}}
+           <button class="btn btn-lg btn-default">Register</button>
+           <br />
+           <a href="#" id="loginlink" style="font-size:18px;">Back to login</a>
+           {{/unless}}
         </p>
      </form>
 

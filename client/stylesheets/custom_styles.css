@@ -15,7 +15,7 @@ margin-right: auto;
     margin-top: 15px;
     margin-bottom: 15px;
 }
-.splashsignin input{
+.splashsignin input, .splashsignin select{
 	margin-bottom:3px;
 }
 .marginbottom3{
