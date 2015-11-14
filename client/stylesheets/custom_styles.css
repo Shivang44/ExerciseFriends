@@ -1,5 +1,5 @@
 .search_button {
-	
+
 
 width: 250px;
 height: 50px;
@@ -7,4 +7,17 @@ font-size: 25px;
 display: block;
 margin-left: auto;
 margin-right: auto;
+}
+.splashsignin{
+	margin-left: auto;
+    margin-right: auto;
+    width: 45%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.splashsignin input{
+	margin-bottom:3px;
+}
+.marginbottom3{
+	margin-botom:3px;
 }
