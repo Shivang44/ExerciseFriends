@@ -21,8 +21,18 @@ function resetSearchingToFalse(failedSearch){
     }else if(failedSearch == 1){
         Session.set("showFailedText", true);
     }else if(failedSearch == 2){
+
+        alert('Open chat!');
+
+
         Session.set("showFailedText", false);
         Session.set("showChat", true);
+
+        // Set other user's DB matchCompleted to true
+        var other_user_id = Session.get("lowestDelta").account_id;
+        console.log(other_user_id);
+        //  lowestDelta: {account_id:"0", delta: 1000});
+
     }
 }
 
@@ -73,6 +83,15 @@ if (Meteor.isClient) {
       },
       showFailedText: function(){
           return Session.get("showFailedText");
+      },
+      showChat: function(){
+          return Session.get("showChat");
+      },
+      listenToOtherUser: function(){
+        //  Session.set("matchCompleted", AccountInfo.find({}));
+          // Set to "machCompleted variable of AccountInfo user profile"
+
+          return Session.get("matchCompleted");
       }
 
   });
@@ -81,10 +100,11 @@ if (Meteor.isClient) {
   clock = 10;
 
   var timeLeft = function() {
+      console.log(clock);
 
       Session.set("lowestDelta", {account_id:"0", delta: 1000});
 
-    if (clock > 0) {
+    if (clock > 0 && !Session.get("matchCompleted")) {
       clock--;
       Session.set("time", clock);
 
@@ -123,15 +143,17 @@ if (Meteor.isClient) {
               deltaTotal += (Math.abs(oArray[j] - tArray[j])) * weights[j];
           }
 
-          if(deltaTotal <= 10){
-              // Found!
-              resetSearchingToFalse(2);
-              clock = -1;;
-          }
+
 
           // Found lower delta!
           if(deltaTotal < Session.get("lowestDelta").delta){
               Session.set("lowestDelta", {account_id:account_id, delta: deltaTotal});
+          }
+
+          if(deltaTotal <= 10){
+              // Found!
+              resetSearchingToFalse(2);
+              clock = -1;
           }
 
           delta_array.push({acount_id: account_id, delta: deltaTotal});
@@ -165,7 +187,9 @@ if (Meteor.isClient) {
 
       clock = 10;
       return Meteor.clearInterval(interval);
-    }
+  }else{
+      return Meteor.clearInterval(interval);
+  }
   };
 
 
@@ -180,6 +204,7 @@ Template.main.events({
     },
     'click #searchbutton': function(e){
         e.preventDefault();
+        clock = 10;
         resetSearchingToFalse(0);
         Session.set("showLoading", true);
 
