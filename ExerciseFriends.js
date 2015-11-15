@@ -32,7 +32,8 @@ function resetSearchingToFalse(failedSearch){
         var other_user_id = Session.get("lowestDelta").account_id;
         var document_id = AccountInfo.find({account_id: other_user_id}).fetch()[0]._id;
 
-        AccountInfo.update({_id: document_id}, {$set: {matchCompleted: true}});
+        AccountInfo.update({_id: document_id}, {$set: {matchCompleted: true, other_user_id: other_user_id}});
+        alert('I came here!');
         //  lowestDelta: {account_id:"0", delta: 1000});
 
     }
@@ -92,8 +93,6 @@ if (Meteor.isClient) {
       },
       listenToOtherUser: function(){
           Session.set("matchCompleted", AccountInfo.find({account_id: Meteor.user()._id}).fetch()[0].matchCompleted);
-          // Set to "machCompleted variable of AccountInfo user profile"
-          console.log(Session.get("matchCompleted"));
           return Session.get("matchCompleted");
       }
 
@@ -181,6 +180,7 @@ if (Meteor.isClient) {
 
       //return console.log(clock);
   }else if(Session.get("matchCompleted")){
+      alert("This will always work");
       resetSearchingToFalse(2);
   }else if(clock == 0) {
       if(Session.get("lowestDelta").delta <= 25){
