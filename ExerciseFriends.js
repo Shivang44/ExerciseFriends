@@ -17,12 +17,12 @@ function resetSearchingToFalse(failedSearch){
     Session.set("showLoading", false);
 
     if(failedSearch == 0){
-        // Initial load
+        Session.set("showFailedText", false);
     }else if(failedSearch == 1){
         Session.set("showFailedText", true);
     }else if(failedSearch == 2){
         Session.set("showFailedText", false);
-        alert('Open chat!');
+        Session.set("showChat", true);
     }
 }
 
@@ -30,9 +30,10 @@ function resetSearchingToFalse(failedSearch){
 if (Meteor.isClient) {
   // counter starts at 0
   Session.setDefault('counter', 0);
-  Session.set("show", false);
-  Session.set("showLoading", false);
-  Session.set("showFailedText", false);
+  Session.setDefault("show", false);
+  Session.setDefault("showLoading", false);
+  Session.setDefault("showFailedText", false);
+  Session.setDefault("showChat", true);
 
   Template.body.helpers({
 
@@ -125,7 +126,7 @@ if (Meteor.isClient) {
           if(deltaTotal <= 10){
               // Found!
               resetSearchingToFalse(2);
-              clock = 0;
+              clock = -1;;
           }
 
           // Found lower delta!
@@ -154,7 +155,7 @@ if (Meteor.isClient) {
 
 
       //return console.log(clock);
-    } else {
+  } else if(clock == 0) {
       if(Session.get("lowestDelta").delta <= 25){
           // pie (good)
           resetSearchingToFalse(2);
