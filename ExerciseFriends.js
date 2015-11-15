@@ -60,7 +60,7 @@ if (Meteor.isClient) {
   });
 
 
-  clock = 10;
+  clock = 120;
 
   var timeLeft = function() {
 
@@ -105,6 +105,11 @@ if (Meteor.isClient) {
               deltaTotal += (Math.abs(oArray[j] - tArray[j])) * weights[j];
           }
 
+          if(deltaTotal <= 8){
+              // Found!
+              clock = 0;
+          }
+
           // Found lower delta!
           if(deltaTotal < Session.get("lowestDelta").delta){
               Session.set("lowestDelta", {account_id:account_id, delta: deltaTotal});
@@ -133,7 +138,7 @@ if (Meteor.isClient) {
       //return console.log(clock);
     } else {
       resetSearchingToFalse();
-      clock = 10;
+      clock = 120;
       return Meteor.clearInterval(interval);
     }
   };
