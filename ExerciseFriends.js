@@ -33,6 +33,22 @@ if (Meteor.isClient) {
       }
   });
 
+
+  var clock = 10;
+
+  var timeLeft = function() {
+    if (clock > 0) {
+      clock--;
+      Session.set("time", clock);
+      return console.log(clock);
+    } else {
+      console.log("That's All Folks");
+      return Meteor.clearInterval(interval);
+    }
+  };
+
+
+
 Template.main.events({
     'click #logoutlink2': function(e){
         e.preventDefault();
@@ -42,6 +58,19 @@ Template.main.events({
     'click #searchbutton': function(e){
         e.preventDefault();
         Session.set("showLoading", true);
+
+        // Set current user's search flag to true
+        var account_id = Meteor.user()._id;
+
+        // Found document_id using account_id
+        var document_id = AccountInfo.find({account_id: account_id}).fetch()[0]._id;
+
+        // Update search flag to true
+        AccountInfo.update({_id: document_id}, {$set: {searching: true}});
+
+        var searching_people = AccountInfo.find({searching:true}).fetch();
+        var interval = Meteor.setInterval(timeLeft, 1000);
+
     }
 });
 
@@ -106,7 +135,8 @@ Template.main.events({
                          {one: fitnessLevel,
                          two: exerciseMethod,
                          three: time,
-                         four: gender}
+                         four: gender},
+                     searching: false
                  });
              }else{
                  alert(error);
