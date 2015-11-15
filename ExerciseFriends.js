@@ -243,6 +243,7 @@ Template.main.events({
         resetSearchingToFalse(0);
         Session.set("showLoading", true);
 
+        alert(Session.get("showChat"));
 
 
         // Set current user's search flag to true
@@ -259,6 +260,17 @@ Template.main.events({
         // Start comparing
         interval = Meteor.setInterval(timeLeft, 1000);
 
+    },
+    'click #findNew': function(e){
+        e.preventDefault();
+
+        var my_id = Meteor.user()._id;
+        var document_id = AccountInfo.find({account_id: my_id}).fetch()[0]._id;
+        AccountInfo.update({_id: document_id}, {$set: {matchCompleted: false, other_user_id: my_id}});
+
+        resetSearchingToFalse(0);
+
+        alert('test');
     }
 });
 
