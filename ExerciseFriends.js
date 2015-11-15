@@ -33,7 +33,6 @@ function resetSearchingToFalse(failedSearch){
         var document_id = AccountInfo.find({account_id: other_user_id}).fetch()[0]._id;
 
         AccountInfo.update({_id: document_id}, {$set: {matchCompleted: true, other_user_id: other_user_id}});
-        alert('I came here!');
         //  lowestDelta: {account_id:"0", delta: 1000});
 
     }
@@ -48,6 +47,7 @@ if (Meteor.isClient) {
   Session.setDefault("showFailedText", false);
   Session.setDefault("showChat", true);
   Session.setDefault("matchCompleted", false);
+  Session.setDefault("lowestDelta", {account_id:"0", delta: 1000});
 
   Template.body.helpers({
 
@@ -104,9 +104,13 @@ if (Meteor.isClient) {
   var timeLeft = function() {
       console.log(clock);
 
-      Session.set("lowestDelta", {account_id:"0", delta: 1000});
 
-    if (clock > 0 && !Session.get("matchCompleted")) {
+
+    if (clock > 0) {
+      if(Session.get("matchCompleted")){
+          alert('Matched on b!');
+          resetSearchingToFalse(2);
+      }
       clock--;
       Session.set("time", clock);
 
@@ -154,14 +158,14 @@ if (Meteor.isClient) {
 
           if(deltaTotal <= 10){
               // Found!
-              resetSearchingToFalse(2);
-              clock = -1;
+              //resetSearchingToFalse(2);
+              clock = 0;
           }
 
-          delta_array.push({acount_id: account_id, delta: deltaTotal});
+         // delta_array.push({acount_id: account_id, delta: deltaTotal});
       }
 
-      console.log(delta_array);
+//      console.log(delta_array);
       console.log(Session.get("lowestDelta"));
 
       // Find minimum of delta_array
@@ -175,24 +179,14 @@ if (Meteor.isClient) {
       // Hook em up
       /////
 
-
-
-
-      //return console.log(clock);
-  }else if(Session.get("matchCompleted")){
-      alert("This will always work");
-      resetSearchingToFalse(2);
-  }else if(clock == 0) {
+  }else{
       if(Session.get("lowestDelta").delta <= 25){
           // pie (good)
           resetSearchingToFalse(2);
       }else{
+          // not found!
           resetSearchingToFalse(1);
       }
-
-      clock = 10;
-      return Meteor.clearInterval(interval);
-  }else{
       return Meteor.clearInterval(interval);
   }
   };
