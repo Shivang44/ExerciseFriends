@@ -23,7 +23,7 @@ function resetSearchingToFalse(failedSearch){
         Session.set("showFailedText", true);
     }else if(failedSearch == 2){
 
-        alert('Open chat!');
+        //alert('Match Found!');
 
 
         Session.set("showFailedText", false);
@@ -40,6 +40,8 @@ function resetSearchingToFalse(failedSearch){
         // Create a new chatroom for user
         // Chatroom ID is biggerid + _ + smaller_id
 
+
+
         var c_id = "";
 
         if(my_id > other_user_id){
@@ -50,21 +52,32 @@ function resetSearchingToFalse(failedSearch){
 
         var chat_room_id = c_id;
 
+        Session.set("chat_room_id", chat_room_id);
+
+        var length = Chats.find({chat_room_id: chat_room_id}).count();
+        //alert(length);
+
+        if(length == 0){
+            // insert it!
+
+
         Chats.insert({
             chat_room_id: chat_room_id,
             messages: [
-                {msg1: "abc"},
-                {msg2: "defg"},
-                {msg3: "hijk"},
-                {msg4: "lmnop"}
+                {msg: "abc" },
+                {msg: "defg"},
+                {msg: "hijk"},
+                {msg: "lmnop"}
             ]
         });
 
         // Get current user's document id
         var document_id = AccountInfo.find({account_id: my_id}).fetch()[0]._id;
-
         // Set current user's chat_room_id to my_id
         AccountInfo.update({_id: document_id}, {$set: {chat_room_id: chat_room_id}});
+
+
+        }
 
         Session.set("showChat2", true);
 
@@ -128,6 +141,10 @@ if (Meteor.isClient) {
       listenToOtherUser: function(){
           Session.set("matchCompleted", AccountInfo.find({account_id: Meteor.user()._id}).fetch()[0].matchCompleted);
           return Session.get("matchCompleted");
+      },
+      fetchMsg: function(){
+          // still need to complete
+          return Chats.find({chat_room_id: Session.get("chat_room_id")}).fetch()[0].messages;
       }
 
   });
@@ -265,9 +282,29 @@ Template.main.events({
         var my_id = Meteor.user()._id;
         var document_id = AccountInfo.find({account_id: my_id}).fetch()[0]._id;
         AccountInfo.update({_id: document_id}, {$set: {matchCompleted: false, other_user_id: my_id}});
-
+        Session.set("showChat2", false);
         resetSearchingToFalse(0);
 
+    },
+    'submit #msgform': function(e, t){
+        e.preventDefault();
+        var msg2 = t.find('#msgtosend').value;
+
+        // document id
+        var document_id = Chats.find({chat_room_id: Session.get("chat_room_id")}).fetch()[0]._id;
+
+        // insert id
+        Chats.update({_id: document_id}, {$push: {messages: {msg: msg2}}});
+
+        /*Chats.insert({
+                text: text,
+                createdAt: new Date(), // current time
+                owner: Meteor.userId(),
+                email: Meteor.user().emails[0].address,
+            });*/
+
+
+        // Insert msg;
     }
 });
 

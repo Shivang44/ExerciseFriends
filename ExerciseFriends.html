@@ -284,7 +284,13 @@
                                           <div class="panel-heading">
                                           </div>
                                           <div class="panel-body">
-                                                  <ul class="media-list">
+
+                                                            <ul class="media-list">
+
+                                                                {{#each fetchMsg}}
+
+
+
                                                                   <li class="media">
                                                                     <div class="media-body">
                                                                         <div class="media">
@@ -292,7 +298,7 @@
                                                                                   <img class="media-object img-circle " src="chat1.png" />
                                                                               </a>
                                                                               <div class="media-body" >
-                                                                                    Message 4
+                                                                                     {{msg}}
                                                                                   <br />
                                                                                  <small class="text-muted">Alex Deo | 23rd June at 5:00pm</small>
                                                                                   <hr />
@@ -301,6 +307,13 @@
 
                                                                       </div>
                                                                   </li>
+
+
+                                                                {{/each}}
+
+
+
+                                                                  <!--
                                                                   <li class="media">
 
                                                                       <div class="media-body">
@@ -351,16 +364,19 @@
                                                                           </div>
 
                                                                       </div>
-                                                                  </li>
+                                                                  </li>-->
                                                               </ul>
                                           </div>
                                           <div class="panel-footer">
-                                              <div class="input-group">
-                                                                  <input type="text" class="form-control" placeholder="Enter Message" />
+
+                                                        <form id="msgform">
+                                                            <div class="input-group">
+                                                                  <input type="text" id="msgtosend" class="form-control" placeholder="Enter Message" />
                                                                   <span class="input-group-btn">
-                                                                      <button class="btn btn-info" type="button">SEND</button>
+                                                                      <button class="btn btn-info" id="sendmsg" type="submit">SEND</button>
                                                                   </span>
                                                               </div>
+                                                          </form>
                                           </div>
                                       </div>
                                   </div>
