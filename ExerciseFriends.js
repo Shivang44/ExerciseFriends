@@ -1,3 +1,5 @@
+AccountInfo = new Mongo.Collection("accountinfo");
+
 if (Meteor.isClient) {
   // counter starts at 0
   Session.setDefault('counter', 0);
@@ -67,6 +69,15 @@ Template.main.events({
           // get user data
           var email = t.find('#inputEmail').value;
           var password = t.find('#inputPassword').value;
+          var fitnessLevel = t.find('#fitnesslevel').value;
+          var exerciseMethod = t.find('#method').value;
+          var time = t.find('#time').value;
+          var gender = t.find('#gender').value;
+
+          console.log(fitnessLevel);
+          console.log(exerciseMethod);
+          console.log(time);
+          console.log(gender);
 
           if(!email.endsWith("@osu.edu")){
               alert('You must use an OSU email to signup!');
@@ -74,9 +85,28 @@ Template.main.events({
           }
 
 
+
           // Create his account
 
-         Accounts.createUser({email: email, password: password}});
+         Accounts.createUser({email: email, password: password}, function(error){
+             if(!error){
+                 //Insert user data
+                 var accountID = Meteor.user()._id;
+                 AccountInfo.insert({
+                     account_id: accountID,
+                     questions: [
+                         {one: fitnessLevel},
+                         {two: exerciseMethod},
+                         {three: time},
+                         {four: gender}
+                     ],
+                 });
+             }
+         });
+
+
+
+
 
 
 //Accounts.verifyEmail();
@@ -124,6 +154,8 @@ if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
   });
+
+
 
 
 }
