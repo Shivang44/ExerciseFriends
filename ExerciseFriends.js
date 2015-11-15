@@ -1,4 +1,5 @@
 AccountInfo = new Mongo.Collection("accountinfo");
+Chats = new Mongo.Collection("chats");
 
 
 // 0 = No error message, initial load
@@ -35,7 +36,36 @@ function resetSearchingToFalse(failedSearch){
         var document_id = AccountInfo.find({account_id: other_user_id}).fetch()[0]._id;
 
         AccountInfo.update({_id: document_id}, {$set: {matchCompleted: true, other_user_id: my_id}});
-        //  lowestDelta: {account_id:"0", delta: 1000});
+
+        // Create a new chatroom for user
+        // Chatroom ID is biggerid + _ + smaller_id
+
+        var c_id = "";
+
+        if(my_id > other_user_id){
+            c_id = my_id + "_" + other_user_id;
+        }else{
+            c_id = other_user_id + "_" + my_id;
+        }
+
+        var chat_room_id = c_id;
+
+        Chats.insert({
+            chat_room_id: chat_room_id,
+            messages: [
+                {msg1: "abc"},
+                {msg2: "defg"},
+                {msg3: "hijk"},
+                {msg4: "lmnop"}
+            ]
+        });
+
+        // Get current user's document id
+        var document_id = AccountInfo.find({account_id: my_id}).fetch()[0]._id;
+
+        // Set current user's chat_room_id to my_id
+        AccountInfo.update({_id: document_id}, {$set: {chat_room_id: chat_room_id}});
+
         Session.set("showChat", true);
 
     }
@@ -92,8 +122,8 @@ if (Meteor.isClient) {
           return Session.get("showFailedText");
       },
       showChat: function(){
-          //return Session.get("showChat");
-          return true;
+          return Session.get("showChat");
+        //  return true;
       },
       listenToOtherUser: function(){
           Session.set("matchCompleted", AccountInfo.find({account_id: Meteor.user()._id}).fetch()[0].matchCompleted);

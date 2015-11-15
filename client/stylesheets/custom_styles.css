@@ -257,4 +257,6 @@ margin-right: auto;
    }
    .chatlist li{
 	   font-size:23px;
+	   text-align: right;
+	   list-style-type: none;
    }
