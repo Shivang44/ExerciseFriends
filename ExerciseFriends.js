@@ -30,9 +30,11 @@ function resetSearchingToFalse(failedSearch){
 
         // Set other user's DB matchCompleted to true
         var other_user_id = Session.get("lowestDelta").account_id;
+        var my_id = Meteor.user()._id;
+        alert("my id is... " + my_id + "...your id is..." + other_user_id);
         var document_id = AccountInfo.find({account_id: other_user_id}).fetch()[0]._id;
 
-        AccountInfo.update({_id: document_id}, {$set: {matchCompleted: true, other_user_id: other_user_id}});
+        AccountInfo.update({_id: document_id}, {$set: {matchCompleted: true, other_user_id: my_id}});
         //  lowestDelta: {account_id:"0", delta: 1000});
 
     }
@@ -208,6 +210,8 @@ Template.main.events({
         resetSearchingToFalse(0);
         Session.set("showLoading", true);
 
+
+
         // Set current user's search flag to true
         var account_id = Meteor.user()._id;
 
@@ -216,6 +220,8 @@ Template.main.events({
 
         // Update search flag to true
         AccountInfo.update({_id: document_id}, {$set: {searching: true}});
+
+        // Unsert other_user_id
 
         // Start comparing
         interval = Meteor.setInterval(timeLeft, 1000);
@@ -335,11 +341,19 @@ Accounts.createUser({
 }
 
 if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // code to run on server at startup
+
+  Meteor.startup(function() {
+
+    return Meteor.methods({
+
+      removeAllPosts: function() {
+
+        return Posts.remove({});
+
+      }
+
+    });
+
   });
-
-
-
 
 }
