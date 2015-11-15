@@ -92,7 +92,8 @@ if (Meteor.isClient) {
           return Session.get("showFailedText");
       },
       showChat: function(){
-          return Session.get("showChat");
+          //return Session.get("showChat");
+          return true;
       },
       listenToOtherUser: function(){
           Session.set("matchCompleted", AccountInfo.find({account_id: Meteor.user()._id}).fetch()[0].matchCompleted);

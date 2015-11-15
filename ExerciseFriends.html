@@ -192,11 +192,11 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Find a Friend <small>matchmaking</small>
+                            Find a Friend <small>{{#unless showChat}}matchmaking{{else}}Chat{{/unless}}</small>
                         </h1>
                         <ol class="breadcrumb">
                             <li class="active">
-                                <i class="fa fa-info-circle"></i> Search for an exercise partner based on your compatibliity, and then chat with them to set up times.
+                                <i class="fa fa-info-circle"></i> {{#unless showChat}}Search for an exercise partner based on your compatibliity, and then chat with them to set up times.{{else}} You've found a compatible exercise friend! Go ahead and chat with them below!{{/unless}}
                             </li>
                         </ol>
                     </div>
@@ -208,217 +208,19 @@
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title"> Search for a match</h3>
+                                <h3 class="panel-title">{{#unless showChat}} Search for a match{{else}} Chat with match{{/unless}}</h3>
                             </div>
                             <div class="panel-body">
                                 {{#each currentlySearching}}
                                     {{account_id}}<br />
                                 {{/each}}
+
+
+                            {{#unless showChat}}
                                 <div id="morris-donut-chart" class="{{#if showLoading}}hidden{{/if}}">
                                     <img class= "RunnerIMG" src= "RunnerArt.png"/>
                                 	<a href="#" id="searchbutton" class="btn btn-success search_button">Search now</a>
                                 </div>
-
-
-                                <style type='text/css'> width: 100%;
-                                @-webkit-keyframes uil-ripple {
-                                  0% {
-                                    width: 0;
-                                    height: 0;
-                                    opacity: 0;
-                                    margin: 0 0 0 0;
-                                  }
-                                  33% {
-                                    width: 44%;
-                                    height: 44%;
-                                    margin: -22% 0 0 -22%;
-                                    opacity: 1;
-                                  }
-                                  100% {
-                                    width: 88%;
-                                    height: 88%;
-                                    margin: -44% 0 0 -44%;
-                                    opacity: 0;
-                                  }
-                                }
-                                @-webkit-keyframes uil-ripple {
-                                  0% {
-                                    width: 0;
-                                    height: 0;
-                                    opacity: 0;
-                                    margin: 0 0 0 0;
-                                  }
-                                  33% {
-                                    width: 44%;
-                                    height: 44%;
-                                    margin: -22% 0 0 -22%;
-                                    opacity: 1;
-                                  }
-                                  100% {
-                                    width: 88%;
-                                    height: 88%;
-                                    margin: -44% 0 0 -44%;
-                                    opacity: 0;
-                                  }
-                                }
-                                @-moz-keyframes uil-ripple {
-                                  0% {
-                                    width: 0;
-                                    height: 0;
-                                    opacity: 0;
-                                    margin: 0 0 0 0;
-                                  }
-                                  33% {
-                                    width: 44%;
-                                    height: 44%;
-                                    margin: -22% 0 0 -22%;
-                                    opacity: 1;
-                                  }
-                                  100% {
-                                    width: 88%;
-                                    height: 88%;
-                                    margin: -44% 0 0 -44%;
-                                    opacity: 0;
-                                  }
-                                }
-                                @-ms-keyframes uil-ripple {
-                                  0% {
-                                    width: 0;
-                                    height: 0;
-                                    opacity: 0;
-                                    margin: 0 0 0 0;
-                                  }
-                                  33% {
-                                    width: 44%;
-                                    height: 44%;
-                                    margin: -22% 0 0 -22%;
-                                    opacity: 1;
-                                  }
-                                  100% {
-                                    width: 88%;
-                                    height: 88%;
-                                    margin: -44% 0 0 -44%;
-                                    opacity: 0;
-                                  }
-                                }
-                                @-moz-keyframes uil-ripple {
-                                  0% {
-                                    width: 0;
-                                    height: 0;
-                                    opacity: 0;
-                                    margin: 0 0 0 0;
-                                  }
-                                  33% {
-                                    width: 44%;
-                                    height: 44%;
-                                    margin: -22% 0 0 -22%;
-                                    opacity: 1;
-                                  }
-                                  100% {
-                                    width: 88%;
-                                    height: 88%;
-                                    margin: -44% 0 0 -44%;
-                                    opacity: 0;
-                                  }
-                                }
-                                @-webkit-keyframes uil-ripple {
-                                  0% {
-                                    width: 0;
-                                    height: 0;
-                                    opacity: 0;
-                                    margin: 0 0 0 0;
-                                  }
-                                  33% {
-                                    width: 44%;
-                                    height: 44%;
-                                    margin: -22% 0 0 -22%;
-                                    opacity: 1;
-                                  }
-                                  100% {
-                                    width: 88%;
-                                    height: 88%;
-                                    margin: -44% 0 0 -44%;
-                                    opacity: 0;
-                                  }
-                                }
-                                @-o-keyframes uil-ripple {
-                                  0% {
-                                    width: 0;
-                                    height: 0;
-                                    opacity: 0;
-                                    margin: 0 0 0 0;
-                                  }
-                                  33% {
-                                    width: 44%;
-                                    height: 44%;
-                                    margin: -22% 0 0 -22%;
-                                    opacity: 1;
-                                  }
-                                  100% {
-                                    width: 88%;
-                                    height: 88%;
-                                    margin: -44% 0 0 -44%;
-                                    opacity: 0;
-                                  }
-                                }
-                                @keyframes uil-ripple {
-                                  0% {
-                                    width: 0;
-                                    height: 0;
-                                    opacity: 0;
-                                    margin: 0 0 0 0;
-                                  }
-                                  33% {
-                                    width: 44%;
-                                    height: 44%;
-                                    margin: -22% 0 0 -22%;
-                                    opacity: 1;
-                                  }
-                                  100% {
-                                    width: 88%;
-                                    height: 88%;
-                                    margin: -44% 0 0 -44%;
-                                    opacity: 0;
-                                  }
-                                }
-                                .uil-ripple-css {
-                                  background: none;
-                                  position: relative;
-                                  width: 325px;
-                                  height: 325px;
-                                  display: block;
-                                  margin-left: auto;
-                                  margin-right: auto;
-                                }
-                                .uil-ripple-css div {
-                                  position: absolute;
-                                  top: 50%;
-                                  left: 50%;
-                                  margin: 0;
-                                  width: 0;
-                                  height: 0;
-                                  opacity: 0;
-                                  border-radius: 50%;
-                                  border-width: 12px;
-                                  border-style: solid;
-                                  -ms-animation: uil-ripple 2s ease-out infinite;
-                                  -moz-animation: uil-ripple 2s ease-out infinite;
-                                  -webkit-animation: uil-ripple 2s ease-out infinite;
-                                  -o-animation: uil-ripple 2s ease-out infinite;
-                                  animation: uil-ripple 2s ease-out infinite;
-                                }
-                                .uil-ripple-css div:nth-of-type(1) {
-                                  border-color: #9a9a9a;
-                                }
-                                .uil-ripple-css div:nth-of-type(2) {
-                                  border-color: #c84a5d;
-                                  -ms-animation-delay: 1s;
-                                  -moz-animation-delay: 1s;
-                                  -webkit-animation-delay: 1s;
-                                  -o-animation-delay: 1s;
-                                  animation-delay: 1s;
-                                }
-                                 </style>
 
 
                                  {{#if showLoading}}
@@ -439,6 +241,35 @@
                                  {{#if showFailedText}}
                                  <h4 style="text-align:center;">No matches found. Please try again later.</h4>
                                  {{/if}}
+                                 {{else}}
+                                 <div id="morris-donut-chart" style="height:500px;">
+                                     <ul class="chatlist">
+                                         <li>Message 1</li>
+                                         <li>Message 1</li>
+                                         <li>Message 1</li>
+                                         <li>Message 1</li>
+                                         <li>Message 1</li>
+                                         <li>Message 1</li>
+                                         <li>Message 1</li>
+                                         <li>Message 1</li>
+                                         <li>Message 1</li>
+                                         <li>Message 1</li>
+                                         <li>Message 1</li>
+                                         <li>Message 1</li>
+                                         <li>Message 1</li>
+                                     </ul>
+                                     <div class="form-group">
+                                      <label class="control-label">Input addons</label>
+                                      <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-comments fa"></i></span>
+                                        <input type="text" class="form-control" style="height:50px;">
+                                        <span class="input-group-btn">
+                                          <button class="btn btn-success" style="height:50px;" type="button">Button</button>
+                                        </span>
+                                      </div>
+                                    </div>
+                                 </div>
+                                 {{/unless}}
                             </div>
                         </div>
                         <br />
