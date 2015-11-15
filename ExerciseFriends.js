@@ -60,7 +60,7 @@ if (Meteor.isClient) {
   });
 
 
-  clock = 120;
+  clock = 10;
 
   var timeLeft = function() {
 
@@ -138,7 +138,7 @@ if (Meteor.isClient) {
       //return console.log(clock);
     } else {
       resetSearchingToFalse();
-      clock = 120;
+      clock = 10;
       return Meteor.clearInterval(interval);
     }
   };
