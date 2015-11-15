@@ -1,6 +1,10 @@
 AccountInfo = new Mongo.Collection("accountinfo");
 
-function resetSearchingToFalse(){
+
+// 0 = No error message, initial load
+// 1 = Error message
+// 2 = Success, open chat
+function resetSearchingToFalse(failedSearch){
     // Set current user's search flag to true
     var account_id = Meteor.user()._id;
 
@@ -11,6 +15,15 @@ function resetSearchingToFalse(){
     AccountInfo.update({_id: document_id}, {$set: {searching: false}});
 
     Session.set("showLoading", false);
+
+    if(failedSearch == 0){
+        // Initial load
+    }else if(failedSearch == 1){
+        Session.set("showFailedText", true);
+    }else if(failedSearch == 2){
+        Session.set("showFailedText", false);
+        alert('Open chat!');
+    }
 }
 
 
@@ -19,6 +32,7 @@ if (Meteor.isClient) {
   Session.setDefault('counter', 0);
   Session.set("show", false);
   Session.set("showLoading", false);
+  Session.set("showFailedText", false);
 
   Template.body.helpers({
 
@@ -37,7 +51,7 @@ if (Meteor.isClient) {
 
   Template.main.rendered = function(){
       // Set current user's search flag to trueresetSearchingToFalse
-      resetSearchingToFalse();
+      resetSearchingToFalse(0);
 
 
   }
@@ -55,6 +69,9 @@ if (Meteor.isClient) {
       currentlySearching: function(){
           Session.set("currentlySearching", AccountInfo.find({searching:true, account_id: {$ne: Meteor.user()._id}}).fetch());
           return Session.get("currentlySearching");
+      },
+      showFailedText: function(){
+          return Session.get("showFailedText");
       }
 
   });
@@ -105,8 +122,9 @@ if (Meteor.isClient) {
               deltaTotal += (Math.abs(oArray[j] - tArray[j])) * weights[j];
           }
 
-          if(deltaTotal <= 8){
+          if(deltaTotal <= 10){
               // Found!
+              resetSearchingToFalse(2);
               clock = 0;
           }
 
@@ -137,7 +155,13 @@ if (Meteor.isClient) {
 
       //return console.log(clock);
     } else {
-      resetSearchingToFalse();
+      if(Session.get("lowestDelta").delta <= 25){
+          // pie (good)
+          resetSearchingToFalse(2);
+      }else{
+          resetSearchingToFalse(1);
+      }
+
       clock = 10;
       return Meteor.clearInterval(interval);
     }
@@ -155,6 +179,7 @@ Template.main.events({
     },
     'click #searchbutton': function(e){
         e.preventDefault();
+        resetSearchingToFalse(0);
         Session.set("showLoading", true);
 
         // Set current user's search flag to true
