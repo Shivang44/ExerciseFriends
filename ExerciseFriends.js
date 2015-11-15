@@ -21,6 +21,9 @@ if (Meteor.isClient) {
   Template.main.helpers({
       emails: function(){
           return Meteor.user().emails[0].address;
+      },
+      error_msg: function(msg){
+          return Session.get("error_msg");
       }
   });
 
@@ -59,7 +62,7 @@ if (Meteor.isClient) {
 
 
           // Create his account
-         /* Accounts.createUser({
+          Accounts.createUser({
               email: email,
             password: password
             });
@@ -67,8 +70,9 @@ if (Meteor.isClient) {
             Meteor.logout();
 
             Session.set("show", false);
-*/
 
+
+/* Fix acc already created
 Accounts.createUser = _.wrap(Accounts.createUser, function(createUser) {
     // Store the original arguments
     var args = _.toArray(arguments).slice(1),
@@ -76,10 +80,8 @@ Accounts.createUser = _.wrap(Accounts.createUser, function(createUser) {
     origCallback = args[1];
 
     var newCallback = function(error) {
-        if(error){
-            alert(error);
-        }
-    origCallback.call(this, error);
+        Session.set("error_msg", error + "");
+            origCallback.call(this, error);
     };
 
     createUser(user, newCallback);
@@ -89,6 +91,7 @@ Accounts.createUser({
      email: email,
    password: password
  });
+ */
 
 
 

@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Excersise Buddies</title>
+    <title>Exercise Buddies</title>
 
     <!-- Bootstrap Core CSS -->
    <!-- <link href="css/bootstrap.min.css" rel="stylesheet">-->
@@ -113,6 +113,10 @@
            <br />
            <a href="#" id="loginlink" style="font-size:18px;">Back to login</a>
            {{/unless}}
+
+           {{#if error}}
+           <h5>{{error_msg}}</h5>
+           {{/if}}
         </p>
      </form>
 
