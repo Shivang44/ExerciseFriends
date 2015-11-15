@@ -150,7 +150,7 @@ if (Meteor.isClient) {
   });
 
 
-  clock = 10;
+  clock = 60;
 
   var timeLeft = function() {
       console.log(clock);
@@ -255,7 +255,7 @@ Template.main.events({
         e.preventDefault();
         Session.set("matchCompleted", false);
         Session.set("lowestDelta", {account_id:"0", delta: 1000});
-        clock = 10;
+        clock = 60;
         resetSearchingToFalse(0);
         Session.set("showLoading", true);
 

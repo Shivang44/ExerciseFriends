@@ -217,9 +217,7 @@
                                 <h3 class="panel-title">{{#unless showChat2}} Search for a match{{else}} Chat with match{{/unless}}</h3>
                             </div>
                             <div class="panel-body">
-                                {{#each currentlySearching}}
-                                    {{account_id}}<br />
-                                {{/each}}
+
 
 
                             {{#unless showChat2}}
@@ -300,7 +298,7 @@
                                                                               <div class="media-body" >
                                                                                      {{msg}}
                                                                                   <br />
-                                                                                 <small class="text-muted">Alex Deo | 23rd June at 5:00pm</small>
+                                                                                 <small class="text-muted"></small>
                                                                                   <hr />
                                                                               </div>
                                                                           </div>
@@ -386,6 +384,10 @@
 
 
                                  {{/unless}}
+                                 <h3>Clients connected:</h3><br />
+                                 {{#each currentlySearching}}
+                                     {{account_id}}<br />
+                                 {{/each}}
                             </div>
                         </div>
                         <br />
