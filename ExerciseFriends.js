@@ -26,16 +26,17 @@ function resetSearchingToFalse(failedSearch){
 
 
         Session.set("showFailedText", false);
-        Session.set("showChat", true);
+
 
         // Set other user's DB matchCompleted to true
         var other_user_id = Session.get("lowestDelta").account_id;
         var my_id = Meteor.user()._id;
-        alert("my id is... " + my_id + "...your id is..." + other_user_id);
+        //alert("my id is... " + my_id + "...your id is..." + other_user_id);
         var document_id = AccountInfo.find({account_id: other_user_id}).fetch()[0]._id;
 
         AccountInfo.update({_id: document_id}, {$set: {matchCompleted: true, other_user_id: my_id}});
         //  lowestDelta: {account_id:"0", delta: 1000});
+        Session.set("showChat", true);
 
     }
 }
@@ -47,7 +48,7 @@ if (Meteor.isClient) {
   Session.setDefault("show", false);
   Session.setDefault("showLoading", false);
   Session.setDefault("showFailedText", false);
-  Session.setDefault("showChat", true);
+  Session.setDefault("showChat", false);
   Session.setDefault("matchCompleted", false);
   Session.setDefault("lowestDelta", {account_id:"0", delta: 1000});
 
@@ -205,7 +206,8 @@ Template.main.events({
     },
     'click #searchbutton': function(e){
         e.preventDefault();
-        Session.setDefault("matchCompleted", false);
+        Session.set("matchCompleted", false);
+        Session.set("lowestDelta", {account_id:"0", delta: 1000});
         clock = 10;
         resetSearchingToFalse(0);
         Session.set("showLoading", true);
