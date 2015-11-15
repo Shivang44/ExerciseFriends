@@ -30,7 +30,9 @@ function resetSearchingToFalse(failedSearch){
 
         // Set other user's DB matchCompleted to true
         var other_user_id = Session.get("lowestDelta").account_id;
-        console.log(other_user_id);
+        var document_id = AccountInfo.find({account_id: other_user_id}).fetch()[0]._id;
+
+        AccountInfo.update({_id: document_id}, {$set: {matchCompleted: true}});
         //  lowestDelta: {account_id:"0", delta: 1000});
 
     }
@@ -44,6 +46,7 @@ if (Meteor.isClient) {
   Session.setDefault("showLoading", false);
   Session.setDefault("showFailedText", false);
   Session.setDefault("showChat", true);
+  Session.setDefault("matchCompleted", false);
 
   Template.body.helpers({
 
@@ -88,9 +91,9 @@ if (Meteor.isClient) {
           return Session.get("showChat");
       },
       listenToOtherUser: function(){
-        //  Session.set("matchCompleted", AccountInfo.find({}));
+          Session.set("matchCompleted", AccountInfo.find({account_id: Meteor.user()._id}).fetch()[0].matchCompleted);
           // Set to "machCompleted variable of AccountInfo user profile"
-
+          console.log(Session.get("matchCompleted"));
           return Session.get("matchCompleted");
       }
 
