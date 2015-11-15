@@ -1,5 +1,19 @@
 AccountInfo = new Mongo.Collection("accountinfo");
 
+function resetSearchingToFalse(){
+    // Set current user's search flag to true
+    var account_id = Meteor.user()._id;
+
+    // Found document_id using account_id
+    var document_id = AccountInfo.find({account_id: account_id}).fetch()[0]._id;
+
+    // Update search flag to true
+    AccountInfo.update({_id: document_id}, {$set: {searching: false}});
+
+    Session.set("showLoading", false);
+}
+
+
 if (Meteor.isClient) {
   // counter starts at 0
   Session.setDefault('counter', 0);
@@ -21,6 +35,13 @@ if (Meteor.isClient) {
       }
   });
 
+  Template.main.rendered = function(){
+      // Set current user's search flag to trueresetSearchingToFalse
+      resetSearchingToFalse();
+
+
+  }
+
   Template.main.helpers({
       emails: function(){
           return Meteor.user().emails[0].address;
@@ -32,14 +53,14 @@ if (Meteor.isClient) {
           return Session.get("showLoading");
       },
       currentlySearching: function(){
-          Session.set("currentlySearching", AccountInfo.find({searching:true}).fetch());
-          return AccountInfo.find({searching:true}).fetch();
+          Session.set("currentlySearching", AccountInfo.find({searching:true, account_id: {$ne: Meteor.user()._id}}).fetch());
+          return Session.get("showLoading");
       }
 
   });
 
 
-  var clock = 10;
+  clock = 10;
 
   var timeLeft = function() {
     if (clock > 0) {
@@ -56,21 +77,36 @@ if (Meteor.isClient) {
       var oTime = our_numbers[0].questions.three;
       var oGender = our_numbers[0].questions.four;
       var oArray = [oFitness, oMethod, oTime, oGender];
-      console.log(oArray);
+    //  console.log(oArray);
+    //console.log("Ours: " + oArray);
 
       // This will hold ALL deltas
       var delta_array = [];
 
+      // These are the weights for each category
+      // The weights are for fightness, method, time, and gender respectively
+      var weights = [3, 5, 3, 1];
+
       // For each person searching
+      deltaTotal = 0; // the lower the better
       for(var i = 0; i < currently_searching.length; i++){
           // Get their number
-          var delta1 = 0;
-          var delta2 = 0;
-          var delta3 = 0;
-          var delta4 = 0;
-          var detaTotal = delta1 + delta2 + delta3 + delta4;
-          delta_array.push(detaTotal);
+          var tFitness = currently_searching[i].questions.one;
+          var tMethod = currently_searching[i].questions.two;
+          var tTime = currently_searching[i].questions.three;
+          var tGender = currently_searching[i].questions.four;
+          var tArray = [tFitness, tMethod, tTime, tGender];
+
+
+
+          for(var i=0; i<=3; i++){
+              deltaTotal += Math.abs(oArray[i] - tArray[i]);
+          }
+
+          delta_array.push(deltaTotal);
       }
+
+      console.log(delta_array);
 
       // Find minimum of delta_array
 
@@ -88,11 +124,13 @@ if (Meteor.isClient) {
 
       //return console.log(clock);
     } else {
+      resetSearchingToFalse();
+      clock = 10;
       return Meteor.clearInterval(interval);
     }
   };
 
-  var interval = Meteor.setInterval(timeLeft, 1000);
+
 
 
 
@@ -112,12 +150,11 @@ Template.main.events({
         // Found document_id using account_id
         var document_id = AccountInfo.find({account_id: account_id}).fetch()[0]._id;
 
-
-
         // Update search flag to true
         AccountInfo.update({_id: document_id}, {$set: {searching: true}});
 
-
+        // Start comparing
+        interval = Meteor.setInterval(timeLeft, 1000);
 
     }
 });
