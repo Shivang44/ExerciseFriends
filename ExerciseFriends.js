@@ -27,6 +27,13 @@ if (Meteor.isClient) {
       }
   });
 
+Template.main.events({
+    'click #logoutlink2': function(e){
+        e.preventDefault();
+        Meteor.logout();
+        return false;
+    }
+});
 
   Template.splash.events({
       'submit #login-form' : function(e, t){
