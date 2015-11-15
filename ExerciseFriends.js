@@ -54,7 +54,7 @@ if (Meteor.isClient) {
       },
       currentlySearching: function(){
           Session.set("currentlySearching", AccountInfo.find({searching:true, account_id: {$ne: Meteor.user()._id}}).fetch());
-          return Session.get("showLoading");
+          return Session.get("currentlySearching");
       }
 
   });
@@ -77,8 +77,6 @@ if (Meteor.isClient) {
       var oTime = our_numbers[0].questions.three;
       var oGender = our_numbers[0].questions.four;
       var oArray = [oFitness, oMethod, oTime, oGender];
-    //  console.log(oArray);
-    //console.log("Ours: " + oArray);
 
       // This will hold ALL deltas
       var delta_array = [];
@@ -90,6 +88,7 @@ if (Meteor.isClient) {
       // For each person searching
       deltaTotal = 0; // the lower the better
       for(var i = 0; i < currently_searching.length; i++){
+          console.log("hello?" + currently_searching.length);
           // Get their number
           var tFitness = currently_searching[i].questions.one;
           var tMethod = currently_searching[i].questions.two;
@@ -99,8 +98,8 @@ if (Meteor.isClient) {
 
 
 
-          for(var i=0; i<=3; i++){
-              deltaTotal += Math.abs(oArray[i] - tArray[i]);
+          for(var j=0; j<=3; j++){
+              deltaTotal += (Math.abs(oArray[j] - tArray[j])) * weights[j];
           }
 
           delta_array.push(deltaTotal);
