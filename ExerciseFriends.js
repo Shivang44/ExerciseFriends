@@ -60,6 +60,7 @@ Template.main.events({
 
           return false;
       },
+
       'submit #register-form': function(e, t){
           e.preventDefault();
 
@@ -67,16 +68,19 @@ Template.main.events({
           var email = t.find('#inputEmail').value;
           var password = t.find('#inputPassword').value;
 
+          if(!email.endsWith("@osu.edu")){
+              alert('You must use an OSU email to signup!');
+              return false;
+          }
+
 
           // Create his account
-          Accounts.createUser({
-              email: email,
-            password: password
-            });
 
-            Meteor.logout();
+         Accounts.createUser({email: email, password: password}});
 
-            Session.set("show", false);
+
+//Accounts.verifyEmail();
+
 
 
 /* Fix acc already created
@@ -120,4 +124,6 @@ if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
   });
+
+
 }
