@@ -30,7 +30,12 @@ if (Meteor.isClient) {
       },
       showLoading: function(){
           return Session.get("showLoading");
+      },
+      currentlySearching: function(){
+          Session.set("currentlySearching", AccountInfo.find({searching:true}).fetch());
+          return AccountInfo.find({searching:true}).fetch();
       }
+
   });
 
 
@@ -40,12 +45,54 @@ if (Meteor.isClient) {
     if (clock > 0) {
       clock--;
       Session.set("time", clock);
-      return console.log(clock);
+
+      // List of people currently searching
+      var currently_searching = Session.get("currentlySearching");
+
+      // Get our own numbers
+      var our_numbers = AccountInfo.find({account_id: Meteor.user()._id}).fetch();
+      var oFitness = our_numbers[0].questions.one;
+      var oMethod = our_numbers[0].questions.two;
+      var oTime = our_numbers[0].questions.three;
+      var oGender = our_numbers[0].questions.four;
+      var oArray = [oFitness, oMethod, oTime, oGender];
+      console.log(oArray);
+
+      // This will hold ALL deltas
+      var delta_array = [];
+
+      // For each person searching
+      for(var i = 0; i < currently_searching.length; i++){
+          // Get their number
+          var delta1 = 0;
+          var delta2 = 0;
+          var delta3 = 0;
+          var delta4 = 0;
+          var detaTotal = delta1 + delta2 + delta3 + delta4;
+          delta_array.push(detaTotal);
+      }
+
+      // Find minimum of delta_array
+
+
+      // 41 is maximum detaTotal
+
+      //////
+      // If total delta is 8 OR LESS
+      // They are soul mates
+      // Hook em up
+      /////
+
+
+
+
+      //return console.log(clock);
     } else {
-      console.log("That's All Folks");
       return Meteor.clearInterval(interval);
     }
   };
+
+  var interval = Meteor.setInterval(timeLeft, 1000);
 
 
 
@@ -65,11 +112,12 @@ Template.main.events({
         // Found document_id using account_id
         var document_id = AccountInfo.find({account_id: account_id}).fetch()[0]._id;
 
+
+
         // Update search flag to true
         AccountInfo.update({_id: document_id}, {$set: {searching: true}});
 
-        var searching_people = AccountInfo.find({searching:true}).fetch();
-        var interval = Meteor.setInterval(timeLeft, 1000);
+
 
     }
 });
@@ -111,10 +159,6 @@ Template.main.events({
           var time = t.find('#time').value;
           var gender = t.find('#gender').value;
 
-          console.log(fitnessLevel);
-          console.log(exerciseMethod);
-          console.log(time);
-          console.log(gender);
 
           if(!email.endsWith("@osu.edu")){
               alert('You must use an OSU email to signup!');
