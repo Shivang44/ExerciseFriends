@@ -180,7 +180,9 @@ if (Meteor.isClient) {
 
 
       //return console.log(clock);
-  } else if(clock == 0) {
+  }else if(Session.get("matchCompleted")){
+      resetSearchingToFalse(2);
+  }else if(clock == 0) {
       if(Session.get("lowestDelta").delta <= 25){
           // pie (good)
           resetSearchingToFalse(2);
@@ -207,6 +209,7 @@ Template.main.events({
     },
     'click #searchbutton': function(e){
         e.preventDefault();
+        Session.setDefault("matchCompleted", false);
         clock = 10;
         resetSearchingToFalse(0);
         Session.set("showLoading", true);
