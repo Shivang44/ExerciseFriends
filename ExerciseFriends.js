@@ -63,6 +63,9 @@ if (Meteor.isClient) {
   clock = 10;
 
   var timeLeft = function() {
+
+      Session.set("lowestDelta", {account_id:"0", delta: 1000});
+
     if (clock > 0) {
       clock--;
       Session.set("time", clock);
@@ -88,7 +91,6 @@ if (Meteor.isClient) {
       // For each person searching
       deltaTotal = 0; // the lower the better
       for(var i = 0; i < currently_searching.length; i++){
-          console.log("hello?" + currently_searching.length);
           // Get their number
           var tFitness = currently_searching[i].questions.one;
           var tMethod = currently_searching[i].questions.two;
@@ -96,16 +98,23 @@ if (Meteor.isClient) {
           var tGender = currently_searching[i].questions.four;
           var tArray = [tFitness, tMethod, tTime, tGender];
 
-
+          // Their account id
+          var account_id = currently_searching[i].account_id;
 
           for(var j=0; j<=3; j++){
               deltaTotal += (Math.abs(oArray[j] - tArray[j])) * weights[j];
           }
 
-          delta_array.push(deltaTotal);
+          // Found lower delta!
+          if(deltaTotal < Session.get("lowestDelta").delta){
+              Session.set("lowestDelta", {account_id:account_id, delta: deltaTotal});
+          }
+
+          delta_array.push({acount_id: account_id, delta: deltaTotal});
       }
 
       console.log(delta_array);
+      console.log(Session.get("lowestDelta"));
 
       // Find minimum of delta_array
 
