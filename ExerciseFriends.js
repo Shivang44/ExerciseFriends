@@ -4,6 +4,7 @@ if (Meteor.isClient) {
   // counter starts at 0
   Session.setDefault('counter', 0);
   Session.set("show", false);
+  Session.set("showLoading", false);
 
   Template.body.helpers({
 
@@ -26,6 +27,9 @@ if (Meteor.isClient) {
       },
       error_msg: function(msg){
           return Session.get("error_msg");
+      },
+      showLoading: function(){
+          return Session.get("showLoading");
       }
   });
 
@@ -34,6 +38,10 @@ Template.main.events({
         e.preventDefault();
         Meteor.logout();
         return false;
+    },
+    'click #searchbutton': function(e){
+        e.preventDefault();
+        Session.set("showLoading", true);
     }
 });
 
@@ -94,13 +102,14 @@ Template.main.events({
                  var accountID = Meteor.user()._id;
                  AccountInfo.insert({
                      account_id: accountID,
-                     questions: [
-                         {one: fitnessLevel},
-                         {two: exerciseMethod},
-                         {three: time},
-                         {four: gender}
-                     ],
+                     questions:
+                         {one: fitnessLevel,
+                         two: exerciseMethod,
+                         three: time,
+                         four: gender}
                  });
+             }else{
+                 alert(error);
              }
          });
 

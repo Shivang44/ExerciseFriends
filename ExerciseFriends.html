@@ -211,10 +211,235 @@
                                 <h3 class="panel-title"> Search for a match</h3>
                             </div>
                             <div class="panel-body">
-                                <div id="morris-donut-chart">
-                                    {{> loginButtons}}
-                                	<a href="#" class="btn btn-success search_button">Search now</a>
+                                <div id="morris-donut-chart" class="{{#if showLoading}}hidden{{/if}}">
+                                    <img class= "RunnerIMG" src= "RunnerArt.png"/>
+                                	<a href="#" id="searchbutton" class="btn btn-success search_button">Search now</a>
                                 </div>
+
+
+
+
+
+
+
+                                <style type='text/css'> width: 100%;
+                                @-webkit-keyframes uil-ripple {
+                                  0% {
+                                    width: 0;
+                                    height: 0;
+                                    opacity: 0;
+                                    margin: 0 0 0 0;
+                                  }
+                                  33% {
+                                    width: 44%;
+                                    height: 44%;
+                                    margin: -22% 0 0 -22%;
+                                    opacity: 1;
+                                  }
+                                  100% {
+                                    width: 88%;
+                                    height: 88%;
+                                    margin: -44% 0 0 -44%;
+                                    opacity: 0;
+                                  }
+                                }
+                                @-webkit-keyframes uil-ripple {
+                                  0% {
+                                    width: 0;
+                                    height: 0;
+                                    opacity: 0;
+                                    margin: 0 0 0 0;
+                                  }
+                                  33% {
+                                    width: 44%;
+                                    height: 44%;
+                                    margin: -22% 0 0 -22%;
+                                    opacity: 1;
+                                  }
+                                  100% {
+                                    width: 88%;
+                                    height: 88%;
+                                    margin: -44% 0 0 -44%;
+                                    opacity: 0;
+                                  }
+                                }
+                                @-moz-keyframes uil-ripple {
+                                  0% {
+                                    width: 0;
+                                    height: 0;
+                                    opacity: 0;
+                                    margin: 0 0 0 0;
+                                  }
+                                  33% {
+                                    width: 44%;
+                                    height: 44%;
+                                    margin: -22% 0 0 -22%;
+                                    opacity: 1;
+                                  }
+                                  100% {
+                                    width: 88%;
+                                    height: 88%;
+                                    margin: -44% 0 0 -44%;
+                                    opacity: 0;
+                                  }
+                                }
+                                @-ms-keyframes uil-ripple {
+                                  0% {
+                                    width: 0;
+                                    height: 0;
+                                    opacity: 0;
+                                    margin: 0 0 0 0;
+                                  }
+                                  33% {
+                                    width: 44%;
+                                    height: 44%;
+                                    margin: -22% 0 0 -22%;
+                                    opacity: 1;
+                                  }
+                                  100% {
+                                    width: 88%;
+                                    height: 88%;
+                                    margin: -44% 0 0 -44%;
+                                    opacity: 0;
+                                  }
+                                }
+                                @-moz-keyframes uil-ripple {
+                                  0% {
+                                    width: 0;
+                                    height: 0;
+                                    opacity: 0;
+                                    margin: 0 0 0 0;
+                                  }
+                                  33% {
+                                    width: 44%;
+                                    height: 44%;
+                                    margin: -22% 0 0 -22%;
+                                    opacity: 1;
+                                  }
+                                  100% {
+                                    width: 88%;
+                                    height: 88%;
+                                    margin: -44% 0 0 -44%;
+                                    opacity: 0;
+                                  }
+                                }
+                                @-webkit-keyframes uil-ripple {
+                                  0% {
+                                    width: 0;
+                                    height: 0;
+                                    opacity: 0;
+                                    margin: 0 0 0 0;
+                                  }
+                                  33% {
+                                    width: 44%;
+                                    height: 44%;
+                                    margin: -22% 0 0 -22%;
+                                    opacity: 1;
+                                  }
+                                  100% {
+                                    width: 88%;
+                                    height: 88%;
+                                    margin: -44% 0 0 -44%;
+                                    opacity: 0;
+                                  }
+                                }
+                                @-o-keyframes uil-ripple {
+                                  0% {
+                                    width: 0;
+                                    height: 0;
+                                    opacity: 0;
+                                    margin: 0 0 0 0;
+                                  }
+                                  33% {
+                                    width: 44%;
+                                    height: 44%;
+                                    margin: -22% 0 0 -22%;
+                                    opacity: 1;
+                                  }
+                                  100% {
+                                    width: 88%;
+                                    height: 88%;
+                                    margin: -44% 0 0 -44%;
+                                    opacity: 0;
+                                  }
+                                }
+                                @keyframes uil-ripple {
+                                  0% {
+                                    width: 0;
+                                    height: 0;
+                                    opacity: 0;
+                                    margin: 0 0 0 0;
+                                  }
+                                  33% {
+                                    width: 44%;
+                                    height: 44%;
+                                    margin: -22% 0 0 -22%;
+                                    opacity: 1;
+                                  }
+                                  100% {
+                                    width: 88%;
+                                    height: 88%;
+                                    margin: -44% 0 0 -44%;
+                                    opacity: 0;
+                                  }
+                                }
+                                .uil-ripple-css {
+                                  background: none;
+                                  position: relative;
+                                  width: 400px;
+                                  height: 400px;
+                                  display: block;
+                                  margin-left: auto;
+                                  margin-right: auto;
+                                }
+                                .uil-ripple-css div {
+                                  position: absolute;
+                                  top: 50%;
+                                  left: 50%;
+                                  margin: 0;
+                                  width: 0;
+                                  height: 0;
+                                  opacity: 0;
+                                  border-radius: 50%;
+                                  border-width: 12px;
+                                  border-style: solid;
+                                  -ms-animation: uil-ripple 2s ease-out infinite;
+                                  -moz-animation: uil-ripple 2s ease-out infinite;
+                                  -webkit-animation: uil-ripple 2s ease-out infinite;
+                                  -o-animation: uil-ripple 2s ease-out infinite;
+                                  animation: uil-ripple 2s ease-out infinite;
+                                }
+                                .uil-ripple-css div:nth-of-type(1) {
+                                  border-color: #9a9a9a;
+                                }
+                                .uil-ripple-css div:nth-of-type(2) {
+                                  border-color: #c84a5d;
+                                  -ms-animation-delay: 1s;
+                                  -moz-animation-delay: 1s;
+                                  -webkit-animation-delay: 1s;
+                                  -o-animation-delay: 1s;
+                                  animation-delay: 1s;
+                                }
+                                 </style>
+
+
+                                 {{#if showLoading}}
+                                 <div class='uil-ripple-css' style='-webkit-transform:scale(0.85)'><div></div><div></div></div>
+                                 <h2 style="text-align:center;">Searching for match...</h2>
+                                 {{/if}}
+
+
+
+
+
+
+
+
+
+
+
+
+
                             </div>
                         </div>
                         <br />
