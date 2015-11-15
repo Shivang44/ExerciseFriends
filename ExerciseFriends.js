@@ -66,7 +66,7 @@ function resetSearchingToFalse(failedSearch){
         // Set current user's chat_room_id to my_id
         AccountInfo.update({_id: document_id}, {$set: {chat_room_id: chat_room_id}});
 
-        Session.set("showChat", true);
+        Session.set("showChat2", true);
 
     }
 }
@@ -78,7 +78,7 @@ if (Meteor.isClient) {
   Session.setDefault("show", false);
   Session.setDefault("showLoading", false);
   Session.setDefault("showFailedText", false);
-  Session.setDefault("showChat", false);
+  Session.setDefault("showChat2", false);
   Session.setDefault("matchCompleted", false);
   Session.setDefault("lowestDelta", {account_id:"0", delta: 1000});
 
@@ -121,8 +121,8 @@ if (Meteor.isClient) {
       showFailedText: function(){
           return Session.get("showFailedText");
       },
-      showChat: function(){
-          return Session.get("showChat");
+      showChat2: function(){
+          return Session.get("showChat2");
         //  return true;
       },
       listenToOtherUser: function(){
@@ -142,7 +142,6 @@ if (Meteor.isClient) {
 
     if (clock > 0) {
       if(Session.get("matchCompleted")){
-          alert('Matched on b!');
           resetSearchingToFalse(2);
       }
       clock--;
@@ -243,7 +242,6 @@ Template.main.events({
         resetSearchingToFalse(0);
         Session.set("showLoading", true);
 
-        alert(Session.get("showChat"));
 
 
         // Set current user's search flag to true
@@ -270,7 +268,6 @@ Template.main.events({
 
         resetSearchingToFalse(0);
 
-        alert('test');
     }
 });
 

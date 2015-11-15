@@ -198,11 +198,11 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Find a Friend <small>{{#unless showChat}}matchmaking{{else}}Chat{{/unless}}</small>
+                            Find a Friend <small>{{#unless showChat2}}matchmaking{{else}}Chat{{/unless}}</small>
                         </h1>
                         <ol class="breadcrumb">
                             <li class="active">
-                                <i class="fa fa-info-circle"></i> {{#unless showChat}}Search for an exercise partner based on your compatibliity, and then chat with them to set up times.{{else}} You've found a compatible exercise friend! Go ahead and chat with them below!{{/unless}}
+                                <i class="fa fa-info-circle"></i> {{#unless showChat2}}Search for an exercise partner based on your compatibliity, and then chat with them to set up times.{{else}} You've found a compatible exercise friend! Go ahead and chat with them below!{{/unless}}
                             </li>
                         </ol>
                     </div>
@@ -214,7 +214,7 @@
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">{{#unless showChat}} Search for a match{{else}} Chat with match{{/unless}}</h3>
+                                <h3 class="panel-title">{{#unless showChat2}} Search for a match{{else}} Chat with match{{/unless}}</h3>
                             </div>
                             <div class="panel-body">
                                 {{#each currentlySearching}}
@@ -222,7 +222,7 @@
                                 {{/each}}
 
 
-                            {{#unless showChat}}
+                            {{#unless showChat2}}
                                 <div id="morris-donut-chart" class="{{#if showLoading}}hidden{{/if}}">
                                     <img class= "RunnerIMG" src= "RunnerArt.png"/>
                                 	<a href="#" id="searchbutton" class="btn btn-success search_button">Search now</a>
