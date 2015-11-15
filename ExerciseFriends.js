@@ -150,7 +150,7 @@ if (Meteor.isClient) {
   });
 
 
-  clock = 60;
+  clock = 30;
 
   var timeLeft = function() {
       console.log(clock);
@@ -206,7 +206,7 @@ if (Meteor.isClient) {
               Session.set("lowestDelta", {account_id:account_id, delta: deltaTotal});
           }
 
-          if(deltaTotal <= 10){
+          if(deltaTotal <= 15){
               // Found!
               //resetSearchingToFalse(2);
               clock = 0;
@@ -230,7 +230,7 @@ if (Meteor.isClient) {
       /////
 
   }else{
-      if(Session.get("lowestDelta").delta <= 25){
+      if(Session.get("lowestDelta").delta <= 30){
           // pie (good)
           resetSearchingToFalse(2);
       }else{
@@ -255,7 +255,7 @@ Template.main.events({
         e.preventDefault();
         Session.set("matchCompleted", false);
         Session.set("lowestDelta", {account_id:"0", delta: 1000});
-        clock = 60;
+        clock = 30;
         resetSearchingToFalse(0);
         Session.set("showLoading", true);
 
