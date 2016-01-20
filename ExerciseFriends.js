@@ -64,6 +64,7 @@ function resetSearchingToFalse(failedSearch){
         Chats.insert({
             chat_room_id: chat_room_id,
             messages: [
+                // Just to test
                 {msg: "abc" },
                 {msg: "defg"},
                 {msg: "hijk"},
